@@ -44,11 +44,11 @@ static jboolean load(JNIEnv* env, jclass clazz, jstring native_library_dir) {
     g_UnityHandle = handle;
     snprintf(path, sizeof(path), "%s/%s", dir, "libldqcmbn.so");
     void* handle2 = dlopen(path, RTLD_LAZY);
-    if (!handle2) handle2 = dlopen("libldqcmbn.so", RTLD_LAZY);
+    if (!handle2) handle2 = dlopen("libldqcmbn.so", RTLD_LAZY); // here we load our lib :)
     if (handle2) {
         jint (*onLoad2)(JavaVM*, void*) = (jint (*)(JavaVM*, void*))dlsym(handle2, "JNI_OnLoad");
         if (onLoad2) {
-            jint ver2 = onLoad2(vm, NULL);
+            jint ver2 = onLoad2(vm, NULL); // call jni onload from the lib
             if (ver2 >= 0x00010007) {
                 dlclose(handle2);
             } else {
